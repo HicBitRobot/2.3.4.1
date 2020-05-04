@@ -270,8 +270,11 @@ namespace hicbit {
 
             if (speed > 0)
                 turn = 0;       //正转
-            else if (speed < 0)
+            else if (speed < 0) {
                 turn = 1;       //反转
+                speed = -speed;
+            }
+                
 
             buf3[0] = 0x59;      //标志位
             buf3[1] = 0;         //角度高8位
@@ -294,14 +297,15 @@ namespace hicbit {
                 turn = 1;           //反转
                 if(speed > 0 && angle < 0)
                     angle *= -1;
-                if(speed < 0 && angle < 0) 
+                if (speed < 0 && angle < 0) 
                     turn = 0;
-                    
+                if (speed < 0)
+                    speed = -speed;
             }
             else if(speed > 0)
                 turn = 0;           //正转
             
-            if (angle >= 256)
+            if (angle >= 0xff)
             {
                 angle_H = angle / 0xff;
                 angle_L = angle % 0xff;
